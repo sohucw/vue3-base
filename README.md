@@ -19,6 +19,10 @@ yarn build
 ```
 yarn lint
 ```
+### 配置说明
+.editorconfig   .prettierrc
+都安装一下
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+.eslintrc  也要配置一下
+
+
