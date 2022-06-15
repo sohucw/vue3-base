@@ -51,12 +51,11 @@ const { filter, filteredTodos } = useFilteredTodos(todos);
     display: grid;
     align-items: center;
     justify-items: center;
-    background: rgb(216, 243, 214);
 }
 .container {
     width: 60%;
     max-width: 400px;
-    box-shadow: 0px 0px 24px rgba(26, 25, 25, 0.15);
+    box-shadow: 0 0 24px rgb(6 107 251 / 15%);
     border-radius: 24px;
     padding: 48px 28px;
     background-color: rgb(229, 230, 235);
