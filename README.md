@@ -30,5 +30,8 @@ yarn lint
 @import url('../assets/style/todo');
 </style>
 
+### 问题定位
+- // reactive 关联复杂数据结构
+// https://juejin.cn/post/7038859745020608548#heading-2
 
 

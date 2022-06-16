@@ -1,25 +1,3 @@
-<script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import useAddTodo from '../composables/useAddTodo';
-// const todoContent = ref("")
-// 接收父元素的传递下来的值
-const props = defineProps<{
-    tid: number;
-}>();
-const emit = defineEmits(['add-todo']);
-const { todoContent, emitAddTodo } = useAddTodo(props.tid, emit);
-// const emitAddTodo = () => {
-//     const todo = {
-//         id: props.tid,
-//         content: todoContent.value,
-//         completed: false
-//     }
-//     // 发出add-todo事件给父元素
-//     emit('add-todo', todo);
-//     todoContent.value = ''
-// }
-</script>
-
 <template>
     <div class="add-todo">
         <input type="text" name="todo" v-model="todoContent" @keyup.enter="emitAddTodo" />
@@ -29,7 +7,28 @@ const { todoContent, emitAddTodo } = useAddTodo(props.tid, emit);
         </button>
     </div>
 </template>
+<script setup lang="ts">
+import { defineProps, defineEmits, ref } from 'vue';
+//import useAddTodo from '../composables/useAddTodo';
+// const { todoContent, emitAddTodo } = useAddTodo(props.tid, emit);
 
+const todoContent = ref('');
+// 接收父元素的传递下来的值
+const props = defineProps<{
+    tid: number;
+}>();
+const emit = defineEmits(['add-todo']);
+const emitAddTodo = () => {
+    const todo = {
+        id: props.tid,
+        content: todoContent.value,
+        completed: false
+    };
+    // 发出add-todo事件给父元素
+    emit('add-todo', todo);
+    todoContent.value = '';
+};
+</script>
 <style>
 /* 添加框 */
 .add-todo {

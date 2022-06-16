@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAddTodo(tid: number, emit: any) {
     const todoContent = ref('');

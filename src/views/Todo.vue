@@ -1,15 +1,29 @@
+<template>
+    <div class="main">
+        <div class="container">
+            <h1>欢迎使用Todo List</h1>
+            <TodoAdd :tid="todos.length" @add-todo="addTodo" />
+            <TodoFilter :selected="filter" @change-filter="filter = $event" />
+            <TodoList :todos="filteredTodos" />
+        </div>
+    </div>
+</template>
+
 <script setup lang="ts">
-// import { reactive, ref, computed, Ref } from 'vue';
+import { reactive, onMounted } from 'vue';
 import TodoAdd from '../components/TodoAdd.vue';
 import TodoFilter from '../components/TodoFilter.vue';
 import TodoList from '../components/TodoList.vue';
-import useTodos from '../composables/useTodos';
+import { Todo } from '../composables/iTodo';
+// import useTodos from '../composables/useTodos';
 import useFilteredTodos from '../composables/useFilteredTodos';
-// import { Todo } from '../composables/iTodo';
-// reactive 关联复杂数据结构
-// https://juejin.cn/post/7038859745020608548#heading-2
-// const todos = reactive<Array<Todo>>([])
-// const addTodo = (todo: any) => todos.push(todo)
+const arras = [
+    { id: 1, content: '任务1', completed: false },
+    { id: 1, content: '任务2', completed: false },
+    { id: 1, content: '任务3', completed: false }
+];
+const todos = reactive<Array<Todo>>(arras);
+const addTodo = (todo: any) => todos.push(todo);
 // const filter = ref<string>("all");
 // const filteredTodos = computed(() => {
 //   switch(filter.value) {
@@ -21,22 +35,12 @@ import useFilteredTodos from '../composables/useFilteredTodos';
 //       return todos;
 //   }
 // })
-const { todos, addTodo } = useTodos();
+// const { todos, addTodo } = useTodos();
 const { filter, filteredTodos } = useFilteredTodos(todos);
+onMounted(() => {
+    // fetchTodos();
+});
 </script>
-
-<template>
-    <div class="main">
-        <div class="container">
-            <h1>欢迎使用Todo List</h1>
-
-            <TodoAdd :tid="todos.length" @add-todo="addTodo" />
-            <TodoFilter :selected="filter" @change-filter="filter = $event" />
-            <TodoList :todos="filteredTodos" />
-        </div>
-    </div>
-</template>
-
 <style>
 * {
     box-sizing: border-box;

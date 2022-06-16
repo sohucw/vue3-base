@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import { defineProps } from 'vue';
-import { Todo } from '../composables/iTodo';
-const props = defineProps<{ todoItem: Todo }>();
-</script>
-
 <template>
     <div class="todo-item" :class="{ done: todoItem.completed }">
         <!-- 用 label 包裹后，点击里边任何一个元素都能触发 checkbox 的事件 -->
@@ -14,7 +8,12 @@ const props = defineProps<{ todoItem: Todo }>();
         </label>
     </div>
 </template>
-
+<script setup lang="ts">
+import { defineProps } from 'vue';
+import { Todo } from '../composables/iTodo';
+// const props = defineProps<{ todoItem: Todo }>();
+defineProps<{ todoItem: Todo }>();
+</script>
 <style>
 .todo-item {
     background: white;

@@ -1,22 +1,21 @@
-<script setup lang="ts">
-import { defineProps } from 'vue';
-import TodoListItem from './TodoListItem.vue';
-import { Todo } from '../composables/iTodo';
-// interface TTdos extends Array<Todo>{}
-const props = defineProps<{ todos: Array<Todo> }>();
-</script>
-
 <template>
     <div class="todo-list">
-        <TodoListItem
+        <Item
             v-for="todo in todos"
             :key="todo.id"
             :todo-item="todo"
             @change-state="todo.completed = $event.target.checked"
         >
-        </TodoListItem>
+        </Item>
     </div>
 </template>
+<script setup lang="ts">
+import { defineProps } from 'vue';
+import Item from './Item.vue';
+import { Todo } from '../composables/iTodo';
+// interface TTdos extends Array<Todo>{}
+defineProps<{ todos: Array<Todo> }>();
+</script>
 
 <style>
 .todo-list {

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+// import NProgress from 'nprogress';
 import Home from '../views/Home.vue';
 import Todo from '../views/Todo.vue';
+import { countTime } from '@/utils/routerTime';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -27,5 +29,13 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 });
-
+router.beforeEach((to, from, next) => {
+    // NProgress.start();
+    // if (to.meta.title) {
+    //     //判断是否有标题
+    //     document.title = to.meta.title;
+    // }
+    countTime(to, from);
+    next();
+});
 export default router;
