@@ -8,38 +8,37 @@
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, ref, computed } from 'vue';
+import * as taskApi from '../api/tasks';
 import TodoAdd from '../components/TodoAdd.vue';
 import TodoFilter from '../components/TodoFilter.vue';
 import TodoList from '../components/TodoList.vue';
 import { Todo } from '../composables/iTodo';
 // import useTodos from '../composables/useTodos';
-import useFilteredTodos from '../composables/useFilteredTodos';
-const arras = [
-    { id: 1, content: '任务1', completed: false },
-    { id: 1, content: '任务2', completed: false },
-    { id: 1, content: '任务3', completed: false }
-];
-const todos = reactive<Array<Todo>>(arras);
-const addTodo = (todo: any) => todos.push(todo);
-// const filter = ref<string>("all");
-// const filteredTodos = computed(() => {
-//   switch(filter.value) {
-//     case "done":
-//       return todos.filter((todo) => todo.completed);
-//     case "todo":
-//       return todos.filter((todo) => !todo.completed);
-//     default:
-//       return todos;
-//   }
+// import useFilteredTodos from '../composables/useFilteredTodos';
+let todos = ref<Array<Todo>>([]);
+const filter = ref<string>('all');
+// 也可以使用定义对象的方式
+// const state = reactive({
+//     todos: [] as Todo[]
 // })
-// const { todos, addTodo } = useTodos();
-const { filter, filteredTodos } = useFilteredTodos(todos);
-onMounted(() => {
-    // fetchTodos();
+const addTodo = (todo: any) => todos.value.push(todo);
+onMounted(async () => {
+    todos.value = await taskApi.getTasks();
 });
+const filteredTodos = computed(() => {
+    switch (filter.value) {
+        case 'done':
+            return todos.value.filter((todo) => todo.completed);
+        case 'todo':
+            return todos.value.filter((todo) => !todo.completed);
+        default:
+            return todos.value;
+    }
+});
+// const { todos, addTodo } = useTodos();
+// const { filter, filteredTodos } = useFilteredTodos(todos);
 </script>
 <style>
 * {

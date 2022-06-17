@@ -37,7 +37,6 @@ let arr: Array<iItem> = [
     { id: 1, name: '图片1', url: url },
     { id: 2, name: '图片2', url: url }
 ];
-debugger;
 const myRef = ref<HTMLInputElement>();
 let list = reactive<iItem[]>([]);
 list = arr;
@@ -46,12 +45,13 @@ onMounted(() => {
     console.dir(myRef.value?.value);
     myRef.value?.focus();
     if (myRef.value?.setSelectionRange) {
-        // myRef.value.setSelectionRange(0, myRef.value.value.length);
+        myRef.value.setSelectionRange(0, myRef.value.value.length);
         // myRef.value.setSelectionRange(0, 0);
+        // navigator.clipboard.writeText(myRef.value.value);
+        // document.execCommand('copy');
     }
 });
-const handleClick = (e: any) => {
-};
+const handleClick = (e: any) => {};
 </script>
 <style lang="less" scoped>
 input {

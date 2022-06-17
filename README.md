@@ -35,3 +35,7 @@ yarn lint
 // https://juejin.cn/post/7038859745020608548#heading-2
 
 
+### 需要安装的插件
+Volar  
+
+
