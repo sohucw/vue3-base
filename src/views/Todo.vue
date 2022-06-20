@@ -9,7 +9,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import * as taskApi from '../api/tasks';
 import TodoAdd from '../components/TodoAdd.vue';
 import TodoFilter from '../components/TodoFilter.vue';

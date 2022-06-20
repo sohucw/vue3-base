@@ -9,7 +9,7 @@ export default {
             }, 500);
         });
     },
-    products: (action, productId) => {
+    products: (action: any, productId: number) => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(productId);
