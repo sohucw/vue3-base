@@ -14,7 +14,9 @@
     text-align: center;
     color: #2c3e50;
 }
-
+h1 {
+    font-size: 20px;
+}
 #nav {
     padding: 30px;
 

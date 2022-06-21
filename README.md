@@ -36,6 +36,10 @@ yarn lint
 
 
 ### 需要安装的插件
-Volar  
+Volar
 
+### package.json里面的插件
+postcss-px-to-viewport  可以将px单位自动转换成viewport单位（vw表示屏幕的1%）。
+- 参考配置：https://gist.github.com/zzjtnb/d4172cdd0b958dbb940332753e735284
+- 参考配置：https://segmentfault.com/a/1190000041809605
 
