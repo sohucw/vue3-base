@@ -1,153 +1,86 @@
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
-console.log('=======', process.env.NODE_ENV);
+/* eslint-disable */
+console.log("vue.config.js", process.env.NODE_ENV);
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+let IS_PROD = process.env.NODE_ENV === "production";
 module.exports = {
-    // 基本路径
-    /* 部署生产环境和开发环境下的URL：可对当前环境进行区分，baseUrl 从 Vue CLI 3.3 起已弃用，要使用publicPath */
-    /* baseUrl: process.env.NODE_ENV === 'production' ? './' : '/' */
-    publicPath: process.env.NODE_ENV === 'production' ? './' : './',
-    // 输出文件目录
-    outputDir: 'dist',
-    // eslint-loader 是否在保存的时候检查
-    lintOnSave: true,
-    // use the full build with in-browser compiler?
-    // https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
-    //   compiler: false,
-    runtimeCompiler: true, //关键点在这
-    // 调整内部的 webpack 配置。
-    // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/webpack.md
-    // webpack配置
-    // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    chainWebpack: () => {
+    productionSourceMap: false,
+    publicPath: process.env.NODE_ENV === "production" ? "/dist/" : "/test/",
+    pluginOptions: {
+        compression: {
+            gzip: {
+                filename: "[file].gz[query]",
+                algorithm: "gzip",
+                include: /\.(js|css|html|svg|json)(\?.*)?$/i,
+                minRatio: 0.8,
+            },
+        },
     },
     configureWebpack: (config) => {
-        if (process.env.NODE_ENV === 'production') {
-            // 为生产环境修改配置...
-            config.mode = 'production';
-            // 将每个依赖包打包成单独的js文件
-            var optimization = {
-                runtimeChunk: 'single',
+        if (IS_PROD) {
+            // 启用 gzip 压缩插件
+            config.plugins.push(
+                new CompressionWebpackPlugin({
+                    test: /\.js$|\.html$|\.css$/u,
+                    threshold: 4096, // 超过 4kb 压缩
+                })
+            );
+            config.optimization = {
                 splitChunks: {
-                    chunks: 'all',
-                    maxInitialRequests: Infinity,
-                    minSize: 20000, // 依赖包超过20000bit将被单独打包
                     cacheGroups: {
-                        vendor: {
+                        common: {
+                            name: "chunk-common", // 打包后的文件名
+                            chunks: "initial", //
+                            minChunks: 2,
+                            maxInitialRequests: 5,
+                            minSize: 0,
+                            priority: 1,
+                            reuseExistingChunk: true,
+                        },
+                        vendors: {
+                            name: "chunk-vendors",
                             test: /[\\/]node_modules[\\/]/,
-                            name(module) {
-                                // get the name. E.g. node_modules/packageName/not/this/part.js
-                                // or node_modules/packageName
-                                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-                                // npm package names are URL-safe, but some servers don't like @ symbols
-                                return `npm.${packageName.replace('@', '')}`;
-                            }
-                        }
-                    }
-                }
+                            chunks: "initial",
+                            priority: 2,
+                            reuseExistingChunk: true,
+                            enforce: true,
+                        },
+                        element: {
+                            name: "element",
+                            test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+                            chunks: "initial",
+                            priority: 3,
+                            reuseExistingChunk: true,
+                            enforce: true,
+                        },
+                    },
+                },
             };
-            Object.assign(config, {
-                optimization
-            });
+            config.output.filename = "js/[name].[contenthash:4].js";
+            config.output.chunkFilename = "js/[name].[contenthash:4].js";
+            // eslint-disable-next-line no-empty
         } else {
-            // 为开发环境修改配置...
-            config.mode = 'development';
-            config.devtool = "cheap-module-eval-source-map"
-            var optimization2 = {
-                runtimeChunk: 'single',
-                splitChunks: {
-                    chunks: 'all',
-                    maxInitialRequests: Infinity,
-                    minSize: 20000, // 依赖包超过20000bit将被单独打包
-                    cacheGroups: {
-                        vendor: {
-                            test: /[\\/]node_modules[\\/]/,
-                            name(module) {
-                                // get the name. E.g. node_modules/packageName/not/this/part.js
-                                // or node_modules/packageName
-                                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-                                // npm package names are URL-safe, but some servers don't like @ symbols
-                                return `npm.${packageName.replace('@', '')}`;
-                            }
-                        }
-                    }
-                }
-            };
         }
-        Object.assign(config, {
-            // 开发生产共同配置
-            // externals: {
-            //   'vue': 'Vue',
-            //   'element-ui': 'ELEMENT',
-            //   'vue-router': 'VueRouter',
-            //   'vuex': 'Vuex'
-            // } // 防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖(用于csdn引入)
-            resolve: {
-                extensions: ['.ts','.js', '.vue', '.json'], //文件优先解析后缀名顺序
-                alias: {
-                    '@': path.resolve(__dirname, './src'),
-                    '@c': path.resolve(__dirname, './src/components'),
-                    '@v': path.resolve(__dirname, './src/views'),
-                    '@u': path.resolve(__dirname, './src/utils'),
-                    '@s': path.resolve(__dirname, './src/service')
-                }, // 别名配置
-                plugins: []
-            },
-            optimization: optimization2
-        });
     },
-    // vue-loader 配置项
-    // https://vue-loader.vuejs.org/en/options.html
-    // vueLoader: {},
-    // 生产环境是否生成 sourceMap 文件
-    productionSourceMap: false,
-    // css相关配置
-    css: {
-        // 是否使用css分离插件 ExtractTextPlugin
-        // extract: true, //注释css热更新生效
-        // 开启 CSS source maps?
-        sourceMap: false,
-        // css预设器配置项
-        loaderOptions: {},
-        // 启用 CSS modules for all css / pre-processor files.
-        requireModuleExtension: false
-    },
-    // use thread-loader for babel & TS in production build
-    // enabled by default if the machine has more than 1 cores
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    parallel: require('os').cpus().length > 1,
-    // 是否启用dll
-    // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#dll-mode
-    // dll: false,
-    // PWA 插件相关配置
-    // see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
-    pwa: {},
-    // webpack-dev-server 相关配置
     devServer: {
-        /* 自动打开浏览器 */
-        open: false,
-        // host: "192.168.0.137",
-        host: '0.0.0.0', //局域网和本地访问
-        //host: "192.168.1.137",
-        port: 8080,
-        https: false,
-        hotOnly: false,
-        /* 使用代理 */
         proxy: {
-            '/api': {
-                /* 目标代理服务器地址 */
-                // target: "http://192.168.0.106:8080/",
-                target: 'http://192.168.1.126:8080/', //阳洋
-                /* 允许跨域 */
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
+            "/api/": {
+                target: "http://ait.dev.weiyun.test.com/",
+                headers: {
+                    // 如果需要传递cookie，可以在此添加
+                    // Cookie: cookies
+                },
+            },
+            "/books/": {
+                target: "https://movie.douban.com/j/search_subjects?type=tv&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0",
+                headers: {
+                    // 如果需要传递cookie，可以在此添加
+                    // Cookie: cookies
+                },
+            },
         },
-        before: () => {}
+        overlay: {
+            warnings: true,
+            errors: true,
+        },
     },
-    // 第三方插件配置
-    pluginOptions: {}
 };
