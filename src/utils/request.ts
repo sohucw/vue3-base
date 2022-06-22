@@ -5,7 +5,7 @@ const request = axios.create({
     timeout: 5000,
     headers: {
         "Content-Type": "application/json",
-        originalUrl: window.location.href,
+        originalUrl: window.location.href
     },
 });
 request.interceptors.response.use(
@@ -16,7 +16,7 @@ request.interceptors.response.use(
         if (code === 40001) {
             window.location.href = redirectUrl;
         } else {
-            return response;
+            return data;
         }
     },
     (error) => {
