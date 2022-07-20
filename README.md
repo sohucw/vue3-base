@@ -43,3 +43,26 @@ postcss-px-to-viewport  可以将px单位自动转换成viewport单位（vw表�
 - 参考配置：https://gist.github.com/zzjtnb/d4172cdd0b958dbb940332753e735284
 - 参考配置：https://segmentfault.com/a/1190000041809605
 
+
+
+
+
+## 其他问题
+
+``` js
+var stringJson = JSON.stringify(this.canvas);
+var objectJson = JSON.parse(string.Json);
+
+//remove property1 property
+delete objectJson.property1;
+
+//add property2 property
+delete objectJson.property2;
+
+// stringify the object again
+stringJson = JSON.stringify(objectJson);
+
+// at this point stringJson is ready to be sent over to the server
+$http.post('http://serverurl/',stringJson);
+
+```

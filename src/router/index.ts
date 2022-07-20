@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 // import NProgress from 'nprogress';
 import Home from '../views/Home.vue';
 import Todo from '../views/Todo.vue';
+import H5 from '../views/H5.vue';
 import { countTime } from '@/utils/routerTime';
 
 const routes: Array<RouteRecordRaw> = [
@@ -16,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
         component: Todo
     },
     {
+        path: '/h5',
+        name: 'H5',
+        component: H5
+    },
+    {
         path: '/about',
         name: 'About',
         // route level code-splitting
@@ -26,8 +32,9 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
+    // history: createWebHistory(process.env.BASE_URL),
+    routes,
+    history: createWebHashHistory()
 });
 router.beforeEach((to, from, next) => {
     // NProgress.start();
