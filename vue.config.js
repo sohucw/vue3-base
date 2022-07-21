@@ -93,16 +93,22 @@ module.exports = {
                 }
             },
             '/get/': {
+                // 输出本次代理请求的日志信息
+                bypass: function (req, res, proxyOptions) {
+                    console.log(proxyOptions.target)
+                },
+                logLevel: 'debug',
+                changeOrigin: true,
                 target: 'https://movie.douban.com/j/search_subjects?type=tv&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0',
                 headers: {
                     // 如果需要传递cookie，可以在此添加
                     Cookie: 'll="118220"; bid=tNypoyRM11A; __utmc=30149280; __utmc=223695111; _vwo_uuid_v2=DFD2D78435504BB4E0C51FD3376E50429|7ac37f323b01b254dd2692e7d2ee8f56; gr_user_id=32dcc12a-13b5-48dc-b1b1-cf90e3391bc5; dbcl2="216486244:y5psqpV++FU"; ck=BhQ9; __utmz=223695111.1655369071.3.3.utmcsr=accounts.douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/; push_noty_num=0; push_doumail_num=0; __utmz=30149280.1655538849.5.5.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utmv=30149280.21648; _pk_ref.100001.4cf6=%5B%22%22%2C%22%22%2C1655792058%2C%22https%3A%2F%2Faccounts.douban.com%2F%22%5D; _pk_id.100001.4cf6=9875ddc9447a4ccf.1654302855.4.1655792058.1655369070.; __utma=30149280.43860434.1654302856.1655538849.1655792060.6; __utma=223695111.1165112140.1654302856.1655369071.1655792060.4'
                 }
             }
-        },
-        overlay: {
-            warnings: true,
-            errors: true
         }
+        // overlay: {
+        //     warnings: true,
+        //     errors: true
+        // }
     }
 };
