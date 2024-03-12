@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+        <HelloWorld msg="埋点demo" />
         <input ref="myRef" name="inputName" :value="inputValue" />
         <button
             key="/info/table"
@@ -14,7 +14,7 @@
                 behavior: '点击了按钮'
             }"
         >
-            表格
+            button
         </button>
         <div class="wrap-div">
             <div v-exp-dot v-for="item in list" :key="item.id" class="wrap-img" :data-dot="item.name">
@@ -40,7 +40,7 @@ let arr: Array<iItem> = [
 const myRef = ref<HTMLInputElement>();
 let list = reactive<iItem[]>([]);
 list = arr;
-const inputValue = ref('大伟聊前端');
+const inputValue = ref('test');
 onMounted(() => {
     console.dir(myRef.value?.value);
     myRef.value?.focus();

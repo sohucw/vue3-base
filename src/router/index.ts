@@ -25,6 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     }
 ];
 
+console.log(process.env.BASE_URL, 'aaa');
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes

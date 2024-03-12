@@ -7,7 +7,7 @@ import 'intersection-observer';
 export default class Exposure {
     dotDataArr: Array<string>;
     maxNum: number;
-    // 可以理解为观察者的集合吧
+    // 可以理解为观察者的集合
     observer: IntersectionObserver | undefined;
     timer: number;
     constructor(maxNum = 10) {
@@ -42,7 +42,7 @@ export default class Exposure {
                             this.storeIntoLocalStorage(this.dotDataArr);
                             if (this.dotDataArr.length > 0) {
                                 //，只要有新的ctm进来  接下来如果没增加  自动2秒后打
-                                this.timer = setTimeout(() => {
+                                this.timer = window.setTimeout(() => {
                                     this.dot();
                                 }, 2000);
                             }
