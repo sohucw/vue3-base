@@ -36,6 +36,17 @@ yarn lint
 
 
 ### 需要安装的插件
-Volar  
+
+
+###
+preload 和 prefetch 区别
+
+preload 告诉浏览器立即加载资源;
+prefetch 告诉浏览器在空闲时才开始加载资源；
+preload、prefetch 仅仅是加载资源，并不会“执行”;
+preload、prefetch 均能设置、命中缓存；
+正确使用 preload、prefetch 不会导致重复请求；
+
+
 
 

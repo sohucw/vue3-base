@@ -3,19 +3,6 @@
         <img alt="Vue logo" src="../assets/logo.png" />
         <HelloWorld msg="埋点demo" />
         <input ref="myRef" name="inputName" :value="inputValue" />
-        <button
-            key="/info/table"
-            @click="handleClick"
-            v-track="{
-                triggerType: 'click',
-                actionType: '用户操作',
-                title: '首页',
-                currentUrl: $route.path,
-                behavior: '点击了按钮'
-            }"
-        >
-            button
-        </button>
         <div class="wrap-div">
             <div v-exp-dot v-for="item in list" :key="item.id" class="wrap-img" :data-dot="item.name">
                 <img width="1608" height="322" class="image" :src="item.url" />

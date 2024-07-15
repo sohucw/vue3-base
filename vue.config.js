@@ -3,7 +3,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin');
 let IS_PROD = process.env.NODE_ENV === 'production';
 module.exports = {
     productionSourceMap: false,
-    publicPath: process.env.NODE_ENV === 'production' ? '/dist/' : '/test/',
+    // publicPath: process.env.NODE_ENV === 'production' ? '/dist/' : '/test/',
     pluginOptions: {
         compression: {
             gzip: {
@@ -13,6 +13,11 @@ module.exports = {
                 minRatio: 0.8
             }
         }
+    },
+    chainWebpack: (config) => {
+        // 删除预加载
+        // config.plugins.delete('preload');
+        // config.plugins.delete('prefetch');
     },
     configureWebpack: (config) => {
         if (IS_PROD) {

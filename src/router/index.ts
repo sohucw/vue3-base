@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 // import NProgress from 'nprogress';
 import Home from '../views/Home.vue';
-import Todo from '../views/Todo.vue';
-import { countTime } from '@/utils/routerTime';
+// import Todo from '../views/Todo.vue';
+// import { countTime } from '@/utils/routerTime';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -10,33 +10,23 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Home',
         component: Home
     },
-    {
-        path: '/todo',
-        name: 'todo',
-        component: Todo
-    },
+    // {
+    //     path: '/todo',
+    //     name: 'Todo',
+    //     component: Todo
+    // },
     {
         path: '/about',
         name: 'About',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        /* webpackPrefetch: 20000 */ // true
+        component: () => import(/* webpackChunkName: "about" */ /* webpackPrefetch: 400 */ '../views/About.vue')
     }
 ];
-
-console.log(process.env.BASE_URL, 'aaa');
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHashHistory(),
     routes
-});
-router.beforeEach((to, from, next) => {
-    // NProgress.start();
-    // if (to.meta.title) {
-    //     //判断是否有标题
-    //     document.title = to.meta.title;
-    // }
-    countTime(to, from);
-    next();
 });
 export default router;
